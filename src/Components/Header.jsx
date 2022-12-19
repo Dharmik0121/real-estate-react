@@ -1,73 +1,115 @@
-// import { motion } from 'framer-motion'
 import React, { useState } from 'react'
-// import { Link } from 'react-router-dom'
-import logo from '../Assets/logo.png'
 import '../index.css'
-import Nav from './Nav'
-import NavMobile from './NavMobile'
-
-// import icons
-import { FaBars } from 'react-icons/fa';
-import { BsArrowRight } from 'react-icons/bs';
+import { motion } from "framer-motion"
+import logo from '../Assets/lo-go.png'
+import { Link } from 'react-router-dom'
+import { Transition } from "@headlessui/react";
 
 const Header = () => {
-    const [navMobile, setNavMobile] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     return (
-        // <div className='bg-white border-b shadow-sm sticky top-0 z-50'>
-        //     <header className='flex justify-between p-2 items-center px-3 max-w-6xl mx-auto'>
-        //         <div className='flex items-center'>
-        //             <Link to='/'><motion.img src={logo} whileHover={{ scale: [null, 1.5, 1.4] }} transition={{ duration: 0.3 }} alt="logo" className='h-12 cursor-pointer' /></Link>
-        //         </div>
-        //         <div  >
-        //             <ul className='flex space-x-10'>
-        //                 <Link to='/'><li className='cursor-pointer hover-underline-animation'><lord-icon src="https://cdn.lordicon.com/kxoxiwrf.json" trigger="hover" stroke="100" colors="primary:#050505,secondary:#7a7979"></lord-icon>Home</li></Link>
-        //                 <Link to='/offers'><li className='cursor-pointer hover-underline-animation'><lord-icon src="https://cdn.lordicon.com/bwwdkiyf.json" trigger="hover" colors="primary:#050505,secondary:#7a7979" stroke="100"></lord-icon>Offers</li></Link>
-        //                 <Link to='/sign-in'><li className='cursor-pointer hover-underline-animation'><lord-icon src="https://cdn.lordicon.com/ljvjsnvh.json" trigger="hover" colors="primary:#050505,secondary:#7a7979" stroke="100"></lord-icon>SignIn</li></Link>
-        //             </ul>
-        //         </div>
-        //     </header >
-        // </div >
-
-        <header
-            className='mb-12 lg:mb-0 z-20 relative px-4 lg:px-0'
-            data-aos='fade-down'
-            data-aos-delay='1200'
-            data-aos-duration='1000'
-        >
-            <div className='container mx-auto'>
-                <div className='flex items-center justify-between'>
-                    <div className='flex items-center gap-x-[120px]'>
-                        <a href=''>
-                            <img src={logo} alt='' />
-                        </a>
-
-                        <div className='hidden lg:flex'>
-                            <Nav />
+        <>
+            <nav className="bg-gray-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16">
+                        <div className="flex items-center">
+                            <motion.div whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }} className="flex-shrink-0">
+                                <img
+                                    className="h-full w-20"
+                                    src={logo}
+                                    alt="Workflow"
+                                />
+                            </motion.div>
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-4">
+                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                        Dashboard
+                                    </Link>
+                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                        Dashboard
+                                    </Link>
+                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
+                                        Dashboard
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="-mr-2 flex md:hidden">
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                type="button"
+                                className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                aria-controls="mobile-menu"
+                                aria-expanded="false"
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                {!isOpen ? (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
                         </div>
                     </div>
-
-                    <div
-                        className={`${navMobile ? 'max-h-52' : 'max-h-0'
-                            } lg:hidden absolute top-24 bg-accent-tertiary w-full left-0 right-0 font-bold rounded transition-all overflow-hidden`}
-                    >
-                        <NavMobile />
-                    </div>
-
-                    <button className='btn btn-quaternary flex items-center gap-x-[20px] group'>
-                        Request Demo
-                        <BsArrowRight className='text-2xl text-accent-primary group-hover:text-white transition' />
-                    </button>
-
-                    {/* nav trigger btn / only shows on mobile screens */}
-                    <div
-                        onClick={() => setNavMobile(!navMobile)}
-                        className='text-2xl text-primary cursor-pointer lg:hidden'
-                    >
-                        <FaBars />
-                    </div>
                 </div>
-            </div>
-        </header>
+
+                <Transition
+                    show={isOpen}
+                    enter="transition ease-out duration-100 transform"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="transition ease-in duration-75 transform"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                >
+                    {(ref) => (
+                        <div className="md:hidden" id="mobile-menu">
+                            <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
+                                    Dashboard
+                                </Link>
+                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
+                                    Dashboard
+                                </Link>
+                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
+                                    Dashboard
+                                </Link>
+                            </div>
+                        </div>
+                    )}
+                </Transition>
+            </nav>
+        </>
+
     )
 }
 
