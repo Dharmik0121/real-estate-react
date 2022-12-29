@@ -1,113 +1,96 @@
-import React, { useState } from 'react'
-import '../index.css'
-import { motion } from "framer-motion"
-import logo from '../Assets/lo-go.png'
-import { Link } from 'react-router-dom'
-import { Transition } from "@headlessui/react";
+import React, { useEffect, useState } from 'react'
+// import logo from '../assets/img/hero_illustration.png'
+import logo from '../assets/img/hero-bg.png'
+import { CgMenuRight, CgClose } from 'react-icons/cg';
+import NavMobile from './NavMobile';
+import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [bg, setBg] = useState(false);
+    const [mobileNav, setMobileNav] = useState(false);
+    useEffect(() => {
+        // add event listener
+        window.addEventListener('scroll', () => {
+            // when scrollY is bigger than 50px setBg to true, else false
+            return window.scrollY > 50 ? setBg(true) : setBg(false);
+        });
+    });
+
+    const [pageState, setPageState] = useState("Sign in");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const auth = getAuth();
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setPageState("Profile");
+            } else {
+                setPageState("Sign in");
+            }
+        });
+    }, [auth]);
+    function pathMatchRoute(route) {
+        if (route === location.pathname) {
+            return true;
+        }
+    }
+
+
     return (
         <>
-            <nav className="bg-gray-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center">
-                            <motion.div whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }} className="flex-shrink-0">
-                                <img
-                                    className="h-full w-20"
-                                    src={logo}
-                                    alt="Workflow"
-                                />
-                            </motion.div>
-                            <div className="hidden md:block">
-                                <div className="ml-10 flex items-baseline space-x-4">
-                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Dashboard
-                                    </Link>
-                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Dashboard
-                                    </Link>
-                                    <Link to='' className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium">
-                                        Dashboard
-                                    </Link>
-                                </div>
-                            </div>
+            <header
+                className={`${
+                    // if bg is true
+                    bg
+                        ? 'bg-primary py-3.5 lg:py-6'
+                        : // if bg is false
+                        'bg-none'
+                    }
+      fixed left-0 py-8 z-10 w-full transition-all duration-200`}
+            >
+                <div className='container mx-auto'>
+                    <div className='flex justify-between items-center'>
+                        {/* logo */}
+                        <Link to='/'>
+                            <img className='h-10 lg:h-10 ' src={logo} alt='' />
+                        </Link>
+                        {/* menu icon */}
+                        <div
+                            onClick={() => setMobileNav(!mobileNav)}
+                            className='md:hidden text-2xl lg:text-3xl text-white cursor-pointer'
+                        >
+                            {mobileNav ? <CgClose /> : <CgMenuRight />}
                         </div>
-                        <div className="-mr-2 flex md:hidden">
-                            <button
-                                onClick={() => setIsOpen(!isOpen)}
-                                type="button"
-                                className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                                aria-controls="mobile-menu"
-                                aria-expanded="false"
-                            >
-                                <span className="sr-only">Open main menu</span>
-                                {!isOpen ? (
-                                    <svg
-                                        className="block h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M4 6h16M4 12h16M4 18h16"
-                                        />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        className="block h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12"
-                                        />
-                                    </svg>
-                                )}
-                            </button>
+                        {/* nav */}
+                        <nav className='hidden md:flex'>
+                            <ul className='md:flex md:gap-x-12'>
+                                <li><Link to='/' className='capitalize text-white hover:border-b transition-all'>Home</Link></li>
+                                <li><Link to='/about' className='capitalize text-white hover:border-b transition-all'>About</Link></li>
+                                <li><Link to='/contact' className='capitalize text-white hover:border-b transition-all'>contact</Link></li>
+                                {/* <li><Link to='/sign-in' className='capitalize text-white hover:border-b transition-all'>signIn</Link></li> */}
+                                <li
+                                    className={`capitalize text-white hover:border-b transition-all ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
+                                        ""
+                                        }`}
+                                    onClick={() => navigate("/profile")}
+                                >
+                                    {pageState}
+                                </li>
+                            </ul>
+                        </nav>
+                        {/* nav mobile */}
+                        <div
+                            className={`${mobileNav ? 'left-0' : '-left-full'
+                                } md:hidden fixed bottom-0 w-3/4 max-w-xs h-screen transition-all`}
+                        >
+                            <NavMobile />
                         </div>
                     </div>
                 </div>
-
-                <Transition
-                    show={isOpen}
-                    enter="transition ease-out duration-100 transform"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="transition ease-in duration-75 transform"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                >
-                    {(ref) => (
-                        <div className="md:hidden" id="mobile-menu">
-                            <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
-                                    Dashboard
-                                </Link>
-                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
-                                    Dashboard
-                                </Link>
-                                <Link className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium">
-                                    Dashboard
-                                </Link>
-                            </div>
-                        </div>
-                    )}
-                </Transition>
-            </nav>
+            </header>
         </>
 
     )

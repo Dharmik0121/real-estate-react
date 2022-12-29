@@ -2,44 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    width: 5px;
+}
 
-.hover-underline-animation {
-    display: flex;
-    align-items: center;
+/* Track */
+::-webkit-scrollbar-track {
+    background: #302f2f24;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgb(62, 62, 62);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+
+
+.btn {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px -5px #aaa;
+    margin: 10px;
+    border-radius: 30%;
+    overflow: hidden;
     position: relative;
-    color: #343434;
+    color: #42d2ff;
 }
 
-.hover-underline-animation::after {
-    content: '';
+.btn i {
+    position: relative;
+    z-index: 4;
+    line-height: 42px;
+    font-size: 26px;
+    transition: 0.3s ease-in-out;
+}
+
+.btn::before {
+    content: "";
     position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #474747;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
+    width: 120%;
+    height: 120%;
+    background: linear-gradient(#00c6ff, #0072ff);
+    transform: rotate(45deg);
+    left: -110%;
+    top: 90%;
 }
 
-.hover-underline-animation:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+.btn:hover {
+    color: #fff;
+    transform: scale(1.1);
 }
 
-.animate-class {
-    animation-name: slideInLeft;
+.btn:hover::before {
+    animation: onHover 0.7s 1;
+    left: -10%;
+    top: -10%;
 }
 
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-100%);
+@keyframes onHover {
+    0% {
+        left: -110%;
+        top: 90%;
     }
 
-    to {
-        opacity: 1;
-        transform: translateX(0);
+    50% {
+        left: 10%;
+        top: -30%;
+    }
+
+    100% {
+        top: -10%;
+        left: -10%;
     }
 }
