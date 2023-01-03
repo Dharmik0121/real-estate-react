@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../assets/img/hero-bg.png'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const NavMobile = () => {
+    const [pageState, setPageState] = useState("Sign in");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const auth = getAuth();
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setPageState("Profile");
+            } else {
+                setPageState("Sign in");
+            }
+        });
+    }, [auth]);
+    function pathMatchRoute(route) {
+        if (route === location.pathname) {
+            return true;
+        }
+    }
     return (
         <>
             <nav className='bg-white shadow-2xl w-full h-full'>
@@ -15,7 +34,15 @@ const NavMobile = () => {
                     <li><Link to='/' className='text-xl font-medium capitalize'>Home</Link></li>
                     <li><Link to='/about' className='text-xl font-medium capitalize'>about</Link></li>
                     <li><Link to='/contact' className='text-xl font-medium capitalize'>contact</Link></li>
-                    <li><Link to='/sign-in' className='text-xl font-medium capitalize'>sign-in</Link></li>
+                    {/* <li><Link to='/sign-in' className='text-xl font-medium capitalize'>sign-in</Link></li> */}
+                    <li
+                        className={`cursor-pointer text-xl font-medium capitalize ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
+                            ""
+                            }`}
+                        onClick={() => navigate("/profile")}
+                    >
+                        {pageState}
+                    </li>
                 </ul>
             </nav>
         </>

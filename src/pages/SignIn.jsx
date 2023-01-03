@@ -4,8 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import OAuth from "../Components/OAuth";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
-import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast'
 
 const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -31,6 +30,7 @@ const SignIn = () => {
                 password
             );
             if (userCredential.user) {
+                toast.success("Login was successful")
                 navigate("/");
             }
         } catch (error) {
@@ -90,7 +90,7 @@ const SignIn = () => {
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                                 </svg>
                             </section>
-                            <img className="rounded-2xl" src="https://images.unsplash.com/photo-1616606103915-dea7be788566?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" alt='' />
+                            <img className="rounded-2xl" src="https://images.pexels.com/photos/2119713/pexels-photo-2119713.jpeg?auto=compress&cs=tinysrgb&w=600" alt='' />
                         </div>
                     </Bounce>
                 </div>

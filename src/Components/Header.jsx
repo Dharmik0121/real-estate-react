@@ -66,14 +66,14 @@ const Header = () => {
                         </div>
                         {/* nav */}
                         <nav className='hidden md:flex'>
-                            <ul className='md:flex md:gap-x-12'>
+                            <ul className='md:flex md:gap-x-12 font-semibold text-base'>
                                 <li><Link to='/' className='capitalize text-white hover:border-b transition-all'>Home</Link></li>
                                 <li><Link to='/about' className='capitalize text-white hover:border-b transition-all'>About</Link></li>
                                 <li><Link to='/contact' className='capitalize text-white hover:border-b transition-all'>contact</Link></li>
                                 {/* <li><Link to='/sign-in' className='capitalize text-white hover:border-b transition-all'>signIn</Link></li> */}
                                 <li
-                                    className={`capitalize text-white hover:border-b transition-all ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
-                                        ""
+                                    className={`cursor-pointer capitalize text-white hover:border-b transition-all ${(pathMatchRoute("/sign-in") || pathMatchRoute("/profile")) &&
+                                        "text-white border-b-white"
                                         }`}
                                     onClick={() => navigate("/profile")}
                                 >

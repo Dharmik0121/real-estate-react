@@ -10,18 +10,18 @@ import {
 import { db } from "../firebase";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from 'react-hot-toast'
 import { Bounce } from "react-reveal";
-import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        phone: "",
         password: "",
     });
-    const { name, email, password } = formData;
+    const { name, email, phone, password } = formData;
     const navigate = useNavigate();
     function onChange(e) {
         setFormData((prevState) => ({
@@ -37,6 +37,7 @@ const SignUp = () => {
             const userCredential = await createUserWithEmailAndPassword(
                 auth,
                 email,
+                phone,
                 password
             );
 
@@ -49,10 +50,10 @@ const SignUp = () => {
             formDataCopy.timestamp = serverTimestamp();
 
             await setDoc(doc(db, "users", user.uid), formDataCopy);
-            toast.success("Sign up was successful");
+            toast.success("SignUp was successful");
             navigate("/");
         } catch (error) {
-            toast.error("Something went wrong with the registration");
+            toast.error("Something went wrong");
         }
     }
 
@@ -64,8 +65,7 @@ const SignUp = () => {
                     {/* form */}
                     <Bounce left>
                         <div className="md:block hidden w-1/2">
-
-                            <img className="rounded-2xl" src="https://images.unsplash.com/photo-1616606103915-dea7be788566?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80" alt='' />
+                            <img className="rounded-2xl" src="https://images.pexels.com/photos/2119713/pexels-photo-2119713.jpeg?auto=compress&cs=tinysrgb&w=600" alt='' />
                         </div>
                     </Bounce>
                     {/* image */}

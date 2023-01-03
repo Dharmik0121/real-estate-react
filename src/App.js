@@ -7,7 +7,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import Hero from './pages/Hero'
 import PrivateRoute from './Components/PrivateRoute'
 import Contact from './pages/Contact'
-import { ToastContainer } from 'react-toastify'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           <Route path='/offers' element={<Offers />} />
           <Route path='/contact' element={<Contact />} />
         </Routes>
-        <ToastContainer />
+        <Toaster />
       </Router>
     </>
   );

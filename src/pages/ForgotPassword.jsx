@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bounce } from "react-reveal";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useState } from "react";
 
 const ForgotPassword = () => {
@@ -20,7 +20,7 @@ const ForgotPassword = () => {
             await sendPasswordResetEmail(auth, email);
             toast.success("Email was sent");
         } catch (error) {
-            toast.error("Please Enter Register Email");
+            toast.error("Invalid Email");
         }
     }
     return (

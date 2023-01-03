@@ -12,11 +12,11 @@ import {
 import ListingItem from '../Components/ListingItem'
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { FcHome } from "react-icons/fc";
 import Bounce from 'react-reveal/Bounce';
 import Header from '../Components/Header'
+import toast from 'react-hot-toast'
 
 const Profile = () => {
     const auth = getAuth();
@@ -31,6 +31,7 @@ const Profile = () => {
     const { name, email } = formData;
     function onLogout() {
         auth.signOut();
+        toast.success("Logout success")
         navigate("/");
     }
     function onChange(e) {
@@ -115,7 +116,7 @@ const Profile = () => {
                             value={name}
                             disabled={!changeDetail}
                             onChange={onChange}
-                            className={`mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${changeDetail && "bg-red-200 focus:bg-red-200"
+                            className={`mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out ${changeDetail && "bg-gray-200 focus:bg-gray-200"
                                 }`}
                         />
 
